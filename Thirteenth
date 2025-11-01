@@ -1,0 +1,16 @@
+from sympy import symbols, Matrix, diff, sympify
+
+x, y, z = symbols('x y z')
+print("Enter components of vector field F = (P, Q, R):")
+P = sympify(input("P (along x): "))
+Q = sympify(input("Q (along y): "))
+R = sympify(input("R (along z): "))
+
+curl = Matrix([
+    diff(R, y) - diff(Q, z),
+    diff(P, z) - diff(R, x),
+    diff(Q, x) - diff(P, y)
+])
+
+print("\nCurl F =")
+print(curl)
