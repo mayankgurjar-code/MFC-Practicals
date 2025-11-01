@@ -1,0 +1,40 @@
+import numpy as np
+
+# --- Input matrix ---
+n = int(input("Enter order of coding matrix (e.g., 2 or 3): "))
+A = []
+for i in range(n):
+    row = list(map(int, input(f"Enter row {i+1} (space separated): ").split()))
+    A.append(row)
+A = np.array(A, int)
+
+if np.linalg.det(A) == 0:
+    print("\n❌ Matrix is singular. Use another matrix.")
+    exit()
+
+print("\nCoding matrix A:\n", A)
+
+# --- Input message ---
+msg = input("\nEnter message (no spaces): ").upper()
+while len(msg) % n != 0:
+    msg += 'X'  # padding if needed
+
+# --- Encode ---
+nums = [ord(ch) - 64 for ch in msg]  # A=1, B=2,...
+nums = np.array(nums).reshape(-1, n)
+coded = (nums @ A) % 26
+coded[coded == 0] = 26
+
+encoded_text = ''.join(chr(int(x) + 64) for x in coded.flatten())
+print("\nEncoded Message:", encoded_text)
+
+# --- Decode ---
+A_inv = np.linalg.inv(A)
+det = round(np.linalg.det(A))
+A_inv_mod26 = (det * A_inv) % 26  # approximate inverse mod 26 (for demonstration)
+
+decoded_nums = (coded @ np.linalg.inv(A))  # real decoding (for demo)
+decoded = np.round(decoded_nums).astype(int)
+
+decoded_text = ''.join(chr((x - 1) % 26 + 65) for x in decoded.flatten())
+print("Decoded Message (approx):", decoded_text)
