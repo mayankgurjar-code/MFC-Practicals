@@ -1,0 +1,10 @@
+from sympy import symbols, sympify, Matrix
+
+vars_input = input("Enter variables separated by space (e.g. x y z or x y): ").split()
+vars_sym = symbols(vars_input)
+f = sympify(input("Enter scalar function in those vars (use ** for power): "))
+
+grad = Matrix([f]).jacobian(vars_sym).T  # gradient column
+print("\nGradient (as column vector):")
+for v, expr in zip(vars_sym, grad):
+    print(f"d/d{v} = {expr}")
