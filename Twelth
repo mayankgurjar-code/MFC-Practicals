@@ -1,0 +1,14 @@
+from sympy import symbols, Matrix, diff, sympify
+
+vars_input = input("Enter variables (e.g. x y z): ").split()
+vars = symbols(vars_input)
+
+print("Enter components of the vector field:")
+F = []
+for i, v in enumerate(vars):
+    F.append(sympify(input(f"  Component along {v}: ")))
+
+F = Matrix(F)
+div = sum(diff(F[i], vars[i]) for i in range(len(vars)))
+
+print("\nDivergence =", div)
