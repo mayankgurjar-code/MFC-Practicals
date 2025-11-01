@@ -1,0 +1,37 @@
+import numpy as np
+from sympy import Matrix
+
+# --- Input square matrix ---
+n = int(input("Enter order of square matrix: "))
+A = []
+for i in range(n):
+    row = list(map(float, input(f"Enter row {i+1} (space separated): ").split()))
+    A.append(row)
+
+A = Matrix(A)
+print("\nMatrix A:")
+print(A)
+
+# --- Eigenvalues and Eigenvectors ---
+eig = A.eigenvects()
+print("\nEigenvalues and their multiplicities:")
+for e in eig:
+    print(f"  Eigenvalue = {e[0]}, Multiplicity = {e[1]}")
+
+# --- Check Diagonalizability ---
+if A.is_diagonalizable():
+    print("\n✅ Matrix is Diagonalizable.")
+else:
+    print("\n❌ Matrix is NOT Diagonalizable.")
+
+# --- Verify Cayley–Hamilton Theorem (A satisfies its own characteristic eqn) ---
+char_poly = A.charpoly()
+print("\nCharacteristic Polynomial:")
+print(char_poly.as_expr())
+
+print("\nVerifying Cayley–Hamilton theorem...")
+result = char_poly.eval(A)
+if result.is_zero_matrix:
+    print("✅ Cayley–Hamilton theorem verified! (P(A) = 0)")
+else:
+    print("❌ Theorem not verified.")
