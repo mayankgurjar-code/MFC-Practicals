@@ -1,0 +1,41 @@
+import numpy as np
+from sympy import Matrix
+
+# --- Input vectors ---
+n = int(input("Enter number of vectors: "))
+m = int(input("Enter number of elements in each vector: "))
+
+vectors = []
+for i in range(n):
+    vec = list(map(float, input(f"Enter elements of vector {i+1} (space separated): ").split()))
+    vectors.append(vec)
+
+A = Matrix(vectors).T  # columns as vectors
+print("\nMatrix of vectors (each column is a vector):")
+print(A)
+
+# --- Check linear dependence ---
+if A.rank() == n:
+    print("\nVectors are linearly independent.")
+else:
+    print("\nVectors are linearly dependent.")
+
+# --- Linear combination ---
+coeff = list(map(float, input("\nEnter coefficients for linear combination: ").split()))
+coeff = Matrix(coeff)
+comb = A * coeff
+print("\nLinear Combination Result:\n", comb)
+
+# --- Transition matrix ---
+print("\nEnter another set of basis vectors (same dimension):")
+B = []
+for i in range(n):
+    vec = list(map(float, input(f"Enter elements of new basis vector {i+1}: ").split()))
+    B.append(vec)
+
+B = Matrix(B).T
+if B.det() != 0:
+    P = A * B.inv()
+    print("\nTransition Matrix from B to A:\n", P)
+else:
+    print("\nTransition matrix cannot be found (B is singular).")
