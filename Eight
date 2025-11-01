@@ -1,0 +1,26 @@
+import numpy as np
+
+# --- Input matrix (vectors as columns) ---
+r = int(input("Enter number of rows (vector dimension): "))
+c = int(input("Enter number of vectors: "))
+A = []
+for i in range(r):
+    row = list(map(float, input(f"Enter row {i+1} (space separated): ").split()))
+    A.append(row)
+
+A = np.array(A, float)
+print("\nMatrix A (columns = vectors):\n", A)
+
+# --- Gram–Schmidt Process ---
+def gram_schmidt(A):
+    n = A.shape[1]
+    Q = np.zeros_like(A, dtype=float)
+    for i in range(n):
+        v = A[:, i]
+        for j in range(i):
+            v = v - np.dot(Q[:, j], A[:, i]) * Q[:, j]
+        Q[:, i] = v / np.linalg.norm(v)
+    return Q
+
+Q = gram_schmidt(A)
+print("\nOrthonormal Basis (columns):\n", np.round(Q, 3))
