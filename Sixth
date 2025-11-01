@@ -1,0 +1,30 @@
+import numpy as np
+from sympy import Matrix
+
+# Input matrix
+r = int(input("Enter number of rows: "))
+c = int(input("Enter number of columns: "))
+A = []
+for i in range(r):
+    row = list(map(float, input(f"Enter row {i+1} (space separated): ").split()))
+    A.append(row)
+
+A = Matrix(A)
+print("\nMatrix A:")
+print(A)
+
+# Column Space
+print("\nBasis of Column Space:")
+print(A.columnspace())
+
+# Row Space
+print("\nBasis of Row Space:")
+print(A.rowspace())
+
+# Null Space
+print("\nBasis of Null Space:")
+print(A.nullspace())
+
+# Left Null Space
+print("\nBasis of Left Null Space:")
+print(A.T.nullspace())
